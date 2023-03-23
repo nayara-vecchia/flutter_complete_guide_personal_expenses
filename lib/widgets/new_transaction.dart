@@ -1,12 +1,36 @@
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
+class NewTransaction extends StatefulWidget {
   final Function addNewTransaction;
 
+  NewTransaction(this.addNewTransaction);
+
+  @override
+  State<NewTransaction> createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
   final titleController = TextEditingController();
+
   final amountController = TextEditingController();
 
-  NewTransaction(this.addNewTransaction);
+  void submitData() {
+    final enteredTitle = titleController.text;
+    final enteredAmount = double.parse(amountController.text);
+    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+      return;
+    }
+
+    print(enteredTitle);
+    print(enteredAmount);
+
+    widget.addNewTransaction(
+      //widget. acessa as propriedades e métodos da classe dentro da state Class
+      enteredTitle,
+      enteredAmount,
+    );
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,20 +44,16 @@ class NewTransaction extends StatelessWidget {
             TextField(
               decoration: InputDecoration(labelText: 'Label'),
               controller: titleController,
+              onSubmitted: (_) => submitData(),
             ),
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
               controller: amountController,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => submitData(),
             ),
             TextButton(
-              onPressed: () {
-                print(titleController.text);
-                print(amountController.text);
-                addNewTransaction(
-                  titleController.text,
-                  double.parse(amountController.text),
-                );
-              },
+              onPressed: submitData,
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all(Colors.purple),
               ),
