@@ -12,60 +12,125 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: transactions.map((e) {
-        return Card(
-          elevation: 5,
-          child: Row(
-            children: <Widget>[
-              Container(
-                constraints: const BoxConstraints(minWidth: 90),
-                alignment: Alignment.center,
-                margin: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 15,
+    return SizedBox(
+      height: 300,
+      child: transactions.isEmpty
+          ? Column(
+              children: <Widget>[
+                Text(
+                  'No transaction added yet',
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.purple,
-                    width: 2,
+                SizedBox(
+                  height: 50,
+                ),
+                SizedBox(
+                  height: 200,
+                  child: Image.asset(
+                    'assets/images/waiting.png',
+                    fit: BoxFit.cover,
                   ),
-                ),
-                padding: const EdgeInsets.all(10),
-                child: Text(
-                  'R\$: ${e.amount.toStringAsFixed(2)}',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.purple,
+                )
+              ],
+            )
+          : ListView.builder(
+              itemCount: transactions.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  margin: EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 5,
                   ),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    e.title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: EdgeInsets.all(6),
+                        child: FittedBox(
+                          child: Text(
+                            'R\$: ${transactions[index].amount.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      transactions[index].title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Theme.of(context).primaryColorDark,
+                      ),
+                    ),
+                    subtitle: Text(
+                      DateFormat('dd/MM/yyyy').format(transactions[index].date),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Theme.of(context).primaryColorLight,
+                      ),
                     ),
                   ),
-                  Text(
-                    DateFormat('dd/MM/yyyy').format(e.date),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      }).toList(),
+                );
+
+                // return Card(
+                //   elevation: 5,
+                //   child: Row(
+                //     children: <Widget>[
+                //       Container(
+                //         constraints: const BoxConstraints(minWidth: 90),
+                //         alignment: Alignment.center,
+                //         margin: const EdgeInsets.symmetric(
+                //           vertical: 10,
+                //           horizontal: 15,
+                //         ),
+                //         decoration: BoxDecoration(
+                //           border: Border.all(
+                //             color: Theme.of(context).primaryColor,
+                //             width: 2,
+                //           ),
+                //         ),
+                //         padding: const EdgeInsets.all(10),
+                //         child: Text(
+                //           'R\$: ${transactions[index].amount.toStringAsFixed(2)}',
+                //           style: TextStyle(
+                //             fontWeight: FontWeight.bold,
+                //             fontSize: 20,
+                //             // color: Theme.of(context).primaryColor,
+                //             color: Theme.of(context).primaryColor,
+                //           ),
+                //         ),
+                //       ),
+                //       Column(
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: <Widget>[
+                //           Text(
+                //             transactions[index].title,
+                //             style: TextStyle(
+                //               fontWeight: FontWeight.bold,
+                //               fontSize: 18,
+                //               color: Theme.of(context).primaryColorDark,
+                //             ),
+                //           ),
+                //           Text(
+                //             DateFormat('dd/MM/yyyy')
+                //                 .format(transactions[index].date),
+                //             style: TextStyle(
+                //               fontWeight: FontWeight.w400,
+                //               fontSize: 14,
+                //               color: Theme.of(context).primaryColorLight,
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ],
+                //   ),
+                // );
+              },
+            ),
     );
   }
 }
