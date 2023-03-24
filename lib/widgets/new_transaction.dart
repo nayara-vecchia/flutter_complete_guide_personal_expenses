@@ -21,8 +21,8 @@ class _NewTransactionState extends State<NewTransaction> {
       return;
     }
 
-    print(enteredTitle);
-    print(enteredAmount);
+    // print(enteredTitle);
+    // print(enteredAmount);
 
     widget.addNewTransaction(
       //widget. acessa as propriedades e métodos da classe dentro da state Class
