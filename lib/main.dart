@@ -17,9 +17,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: myTitle,
       theme: ThemeData(
-          primarySwatch: Colors.purple,
-          accentColor: Colors.lightBlueAccent,
-          fontFamily: 'Quicksand'),
+        primarySwatch: Colors.purple,
+        accentColor: Color.fromARGB(255, 76, 175, 80),
+        errorColor: Colors.redAccent,
+        fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+              titleMedium: TextStyle(
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+              // button: TextStyle(
+              //   color: Colors.white,
+              // ),
+            ),
+      ),
       //adaptar para versão pós 2.4.0
       home: myHomePage,
     );
@@ -38,18 +50,22 @@ class _MyHomePageState extends State<MyHomePage> {
   final myChart = 'Chart';
 
   final List<Transaction> _userTransaction = [
-    // Transaction(
-    //   id: '01',
-    //   title: 'title1',
-    //   amount: 72,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: '02',
-    //   title: 'title2',
-    //   amount: 23,
-    //   date: DateTime.now(),
-    // )
+    Transaction(
+      id: '01',
+      title: 'title1',
+      amount: 72,
+      date: DateTime.now().subtract(
+        Duration(days: 1),
+      ),
+    ),
+    Transaction(
+      id: '02',
+      title: 'title2',
+      amount: 23,
+      date: DateTime.now().subtract(
+        Duration(days: 2),
+      ),
+    )
   ];
 
   List<Transaction> get recentTransaction {
@@ -62,12 +78,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String txTitle, double txAmount) {
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime selectedDate) {
     final newTx = Transaction(
       id: DateTime.now().toString(),
       title: txTitle,
       amount: txAmount,
-      date: DateTime.now(),
+      date: selectedDate,
     );
 
     setState(() {
@@ -86,6 +103,12 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransaction.removeWhere((element) => element.id == id);
+    });
   }
 
   @override
@@ -117,16 +140,9 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          // SizedBox(
-          //   width: double.infinity,
-          //   child: Card(
-          //     color: Theme.of(context).primaryColorLight,
-          //     elevation: 5,
-          //     child: Text(myChart), //Container substituido por SizedBox
-          //   ),
-          // ),
           Chart(recentTransaction),
-          TransactionList(_userTransaction),
+          Expanded(
+              child: TransactionList(_userTransaction, _deleteTransaction)),
         ],
       ),
     );
