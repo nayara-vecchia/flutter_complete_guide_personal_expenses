@@ -6,7 +6,7 @@ import './adaptive_button.dart';
 class NewTransaction extends StatefulWidget {
   final Function addNewTransaction;
 
-  NewTransaction(this.addNewTransaction);
+  const NewTransaction(this.addNewTransaction);
 
   @override
   State<NewTransaction> createState() => _NewTransactionState();
@@ -70,12 +70,12 @@ class _NewTransactionState extends State<NewTransaction> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               TextField(
-                decoration: InputDecoration(labelText: 'Label'),
+                decoration: const InputDecoration(labelText: 'Label'),
                 controller: _titleController,
                 onSubmitted: (_) => _submitData(),
               ),
               TextField(
-                decoration: InputDecoration(labelText: 'Amount'),
+                decoration: const InputDecoration(labelText: 'Amount'),
                 controller: _amountController,
                 keyboardType: TextInputType.number,
                 onSubmitted: (_) => _submitData(),
@@ -89,7 +89,7 @@ class _NewTransactionState extends State<NewTransaction> {
                         // ignore: unnecessary_null_comparison
                         _selectedDate == null
                             ? 'No date chosen'
-                            : 'Picked date ${DateFormat.yMd().format(_selectedDate!) as String}',
+                            : 'Picked date ${DateFormat.yMd().format(_selectedDate!)}',
                       ),
                     ),
                     AdaptiveTextButton('Chose date', _presentDatePicker)

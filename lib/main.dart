@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         errorColor: Colors.redAccent,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
-              titleMedium: TextStyle(
+              titleMedium: const TextStyle(
                 fontFamily: 'OpenSans',
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'title1',
       amount: 72,
       date: DateTime.now().subtract(
-        Duration(days: 1),
+        const Duration(days: 1),
       ),
     ),
     Transaction(
@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'title2',
       amount: 23,
       date: DateTime.now().subtract(
-        Duration(days: 2),
+        const Duration(days: 2),
       ),
     )
   ];
@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return _userTransaction.where((element) {
       return element.date.isAfter(
         DateTime.now().subtract(
-          Duration(days: 7),
+          const Duration(days: 7),
         ),
       );
     }).toList();
@@ -184,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Show Chart'),
+                const Text('Show Chart'),
                 Switch.adaptive(
                   activeColor: Theme.of(context).accentColor,
                   value: _showChart,
@@ -221,8 +221,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Platform.isIOS
         ? CupertinoPageScaffold(
-            child: pageBody,
             navigationBar: appBar as ObstructingPreferredSizeWidget?,
+            child: pageBody,
           )
         : Scaffold(
             appBar: appBar,
@@ -232,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ? Container()
                 : FloatingActionButton(
                     onPressed: () => _startAddNewTransaction(context),
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                     ),
                   ),

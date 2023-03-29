@@ -7,7 +7,7 @@ class AdaptiveTextButton extends StatelessWidget {
   final String text;
   final VoidCallback handler;
 
-  AdaptiveTextButton(this.text, this.handler);
+  const AdaptiveTextButton(this.text, this.handler);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class AdaptiveTextButton extends StatelessWidget {
             onPressed: handler,
             child: Text(
               text,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           )
         : TextButton(
@@ -27,7 +27,7 @@ class AdaptiveTextButton extends StatelessWidget {
             ),
             child: Text(
               text,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           );
   }

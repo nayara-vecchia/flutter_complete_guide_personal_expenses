@@ -5,8 +5,7 @@ import './chart_bar.dart';
 import '../models/transactions.dart';
 
 class Chart extends StatelessWidget {
-  //const Chart({Key? key}) : super(key: key);
-  Chart(this.recentTransaction);
+  const Chart(this.recentTransaction);
 
   final List<Transaction> recentTransaction;
 
@@ -39,13 +38,11 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(groupedTransactionValues);
-
     return Card(
       elevation: 6,
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: groupedTransactionValues.map((data) {
