@@ -134,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar = CupertinoNavigationBar(
         middle: Text(
           myTitle,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'OpenSans',
             fontWeight: FontWeight.bold,
           ),
@@ -144,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             GestureDetector(
               onTap: () => _startAddNewTransaction(context),
-              child: Icon(CupertinoIcons.add),
+              child: const Icon(CupertinoIcons.add),
             )
           ],
         ),
@@ -153,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar = AppBar(
         title: Text(
           myTitle,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'OpenSans',
             fontWeight: FontWeight.bold,
           ),
@@ -161,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: <Widget>[
           IconButton(
             onPressed: () => _startAddNewTransaction(context),
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
           )
         ],
       );
