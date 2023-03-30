@@ -8,13 +8,6 @@ import './widgets/chart.dart';
 import './models/transactions.dart';
 
 void main() {
-  // Forçando o app a iniciar e se manter apenas no modo fotografia
-  //
-  // WidgetsFlutterBinding.ensureInitialized();
-  // SystemChrome.setPreferredOrientations([
-  //   DeviceOrientation.portraitUp,
-  //   DeviceOrientation.portraitDown,
-  // ]);
   runApp(const MyApp());
 }
 
@@ -38,9 +31,6 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
-              // button: TextStyle(
-              //   color: Colors.white,
-              // ),
             ),
       ),
       //adaptar para versão pós 2.4.0
@@ -124,48 +114,100 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool _showChart = false;
 
+  //usando método build
+  List<Widget> _buildLandscapeContent(
+    MediaQueryData mediaQuery,
+    AppBar appBar,
+    Widget transactionList,
+  ) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text('Show Chart'),
+          Switch.adaptive(
+            activeColor: Theme.of(context).accentColor,
+            value: _showChart,
+            onChanged: (e) {
+              setState(() {
+                _showChart = e;
+              });
+            },
+          ),
+        ],
+      ),
+      _showChart
+          ? Container(
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.7,
+              child: Chart(recentTransaction),
+            )
+          : transactionList,
+    ];
+  }
+
+  List<Widget> _buildPortraitContent(
+    MediaQueryData mediaQuery,
+    AppBar appBar,
+    Widget transactionList,
+  ) {
+    return [
+      Container(
+        height: (mediaQuery.size.height -
+                appBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            0.3,
+        child: Chart(recentTransaction),
+      ),
+      transactionList,
+    ];
+  }
+
+  Widget _buildAppBar() {
+    return Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: Text(
+              myTitle,
+              style: const TextStyle(
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () => _startAddNewTransaction(context),
+                  child: const Icon(CupertinoIcons.add),
+                )
+              ],
+            ),
+          )
+        : AppBar(
+            title: Text(
+              myTitle,
+              style: const TextStyle(
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            actions: <Widget>[
+              IconButton(
+                onPressed: () => _startAddNewTransaction(context),
+                icon: const Icon(Icons.add),
+              )
+            ],
+          );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
-    final PreferredSizeWidget appBar;
-    if (Platform.isIOS) {
-      appBar = CupertinoNavigationBar(
-        middle: Text(
-          myTitle,
-          style: const TextStyle(
-            fontFamily: 'OpenSans',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            GestureDetector(
-              onTap: () => _startAddNewTransaction(context),
-              child: const Icon(CupertinoIcons.add),
-            )
-          ],
-        ),
-      );
-    } else {
-      appBar = AppBar(
-        title: Text(
-          myTitle,
-          style: const TextStyle(
-            fontFamily: 'OpenSans',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => _startAddNewTransaction(context),
-            icon: const Icon(Icons.add),
-          )
-        ],
-      );
-    }
+    final PreferredSizeWidget appBar = _buildAppBar() as PreferredSizeWidget;
 
     final transactionList = Container(
       height: (mediaQuery.size.height -
@@ -181,40 +223,17 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           if (isLandscape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Show Chart'),
-                Switch.adaptive(
-                  activeColor: Theme.of(context).accentColor,
-                  value: _showChart,
-                  onChanged: (e) {
-                    setState(() {
-                      _showChart = e;
-                    });
-                  },
-                ),
-              ],
+            ..._buildLandscapeContent(
+              mediaQuery,
+              appBar as AppBar,
+              transactionList,
             ),
           if (!isLandscape)
-            Container(
-              height: (mediaQuery.size.height -
-                      appBar.preferredSize.height -
-                      mediaQuery.padding.top) *
-                  0.3,
-              child: Chart(recentTransaction),
+            ..._buildPortraitContent(
+              mediaQuery,
+              appBar as AppBar,
+              transactionList,
             ),
-          if (!isLandscape) transactionList,
-          if (isLandscape)
-            _showChart
-                ? Container(
-                    height: (mediaQuery.size.height -
-                            appBar.preferredSize.height -
-                            mediaQuery.padding.top) *
-                        0.7,
-                    child: Chart(recentTransaction),
-                  )
-                : transactionList,
         ],
       ),
     );

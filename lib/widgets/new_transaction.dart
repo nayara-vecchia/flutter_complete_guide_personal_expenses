@@ -50,7 +50,6 @@ class _NewTransactionState extends State<NewTransaction> {
       setState(() {
         _selectedDate = value;
       });
-      print(_selectedDate);
     });
   }
 
@@ -86,24 +85,12 @@ class _NewTransactionState extends State<NewTransaction> {
                   children: <Widget>[
                     Expanded(
                       child: Text(
-                        // ignore: unnecessary_null_comparison
                         _selectedDate == null
                             ? 'No date chosen'
                             : 'Picked date ${DateFormat.yMd().format(_selectedDate!)}',
                       ),
                     ),
                     AdaptiveTextButton('Chose date', _presentDatePicker)
-                    // TextButton(
-                    //   onPressed: _presentDatePicker,
-                    //   style: ButtonStyle(
-                    //     foregroundColor: MaterialStateProperty.all(
-                    //         Theme.of(context).primaryColor),
-                    //   ),
-                    //   child: Text(
-                    //     'Chose date',
-                    //     style: TextStyle(fontWeight: FontWeight.bold),
-                    //   ),
-                    // )
                   ],
                 ),
               ),
@@ -114,7 +101,7 @@ class _NewTransactionState extends State<NewTransaction> {
                     Colors.white,
                   ),
                 ),
-                child: Text('Add Transaction'),
+                child: const Text('Add Transaction'),
               )
             ],
           ),

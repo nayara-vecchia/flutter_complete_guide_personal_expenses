@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 class AdaptiveTextButton extends StatelessWidget {
-  // const MyWidget({Key? key}) : super(key: key);
   final String text;
   final VoidCallback handler;
 
