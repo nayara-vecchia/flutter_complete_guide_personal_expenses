@@ -167,11 +167,7 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
 
-    final transactionList = Container(
-      height: (mediaQuery.size.height -
-              appBar.preferredSize.height -
-              mediaQuery.padding.top) *
-          0.7,
+    final transactionList = Expanded(
       child: TransactionList(_userTransaction, _deleteTransaction),
     );
 
